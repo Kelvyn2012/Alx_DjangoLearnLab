@@ -7,7 +7,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "your_project_name.settings")
 
 def books_by_author(author_name):
     try:
-        author = Book.objects.all(name=author_name)
+        author = Book.objects.get(name=author_name)
         books = author.books.all()
         print(f"Books by {author.name}:")
         for book in books:
@@ -18,7 +18,7 @@ def books_by_author(author_name):
 
 def books_in_library(library_name):
     try:
-        library = Library.objects.all(name=library_name)
+        library = Library.objects.get(name=library_name)
         books = library.books.all()
         print(f"Books in {library.name}:")
         for book in books:
