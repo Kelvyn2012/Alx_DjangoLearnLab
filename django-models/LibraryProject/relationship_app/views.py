@@ -2,9 +2,10 @@ from .models import Book
 from .models import Library
 from django.shortcuts import render, redirect
 from django.views.generic.detail import DetailView
-from django.contrib.auth import login, authenticate
+from django.views.generic.edit import FormView
 from django.contrib.auth.views import LogoutView, LoginView
 from django.contrib.auth.forms import UserCreationForm
+from django.urls import reverse_lazy
 
 
 def list_books(request):
@@ -26,12 +27,11 @@ class CustomLogoutView(LogoutView):
     template_name = "relationship_app/logout.html"
 
 
-def register(request):
-    if request == "POST":
-        form = UserCreationForm(request, data=request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("login")
-    else:
-        form = UserCreationForm()
-        return render(request, "relationship_app/register.html", {"form": form})
+class RegisterView(FormView):
+    template_name = 'relationship_app/register.html'
+    form_class = UserCreationForm
+    success_url = reverse_lazy('login')
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
