@@ -4,7 +4,7 @@ from .views import (
     LibraryDetailView,
     CustomLoginView,
     CustomLogoutView,
-    register,
+    RegisterView,
 )
 
 urlpatterns = [
@@ -12,5 +12,5 @@ urlpatterns = [
     path("library/<int:pk>/", LibraryDetailView.as_view(), name="library_detail"),
     path("login/", CustomLoginView.as_view(), name="login"),
     path("logout/", CustomLogoutView.as_view(), name="logout"),
-    path("register/", register, name="register"),
+    path("register/", RegisterView.as_view(), name="register"),
 ]
