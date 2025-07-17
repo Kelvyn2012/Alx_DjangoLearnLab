@@ -2,7 +2,8 @@ from .models import Book
 from .models import Library
 from django.shortcuts import render, redirect
 from django.views.generic.detail import DetailView
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.views import LogoutView
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 
@@ -29,9 +30,8 @@ def user_login(request):
         return render(request, "relationship_app/login.html", {"form": form})
 
 
-def user_logout(request):
-    logout(request)
-    return render(request, "relationship_app/logout.html")
+class CustomLogoutView(LogoutView):
+    template_name = "relationship_app/logout.html"
 
 
 def register(request):
