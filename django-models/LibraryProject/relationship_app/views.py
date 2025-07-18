@@ -1,6 +1,7 @@
 from .models import Book
 from .models import Library, UserProfile
 from django.contrib.auth import login
+from django.contrib.auth.decorators import permission_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.detail import DetailView
 from django.contrib.auth.views import LogoutView, LoginView
@@ -8,7 +9,6 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import (
     user_passes_test,
     login_required,
-    permission_required,
 )
 from .forms import BookForm
 
