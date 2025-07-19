@@ -35,7 +35,6 @@ class Author(models.Model):
 
 class Book(models.Model):
     title = models.CharField(max_length=200)
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
     publication_year = models.PositiveIntegerField()
     author = models.ForeignKey(Author, related_name="books", on_delete=models.CASCADE)
 
