@@ -1,4 +1,5 @@
-from .models import Book, Library, UserProfile
+from .models import Book, UserProfile
+from .models import Library
 from django.contrib.auth import login
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.detail import DetailView
