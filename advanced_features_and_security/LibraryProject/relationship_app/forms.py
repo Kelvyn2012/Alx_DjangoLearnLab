@@ -21,7 +21,7 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'password1', 'password2')  # Don't include 'role'
+        fields = ('username', 'password1', 'password2') 
 
     def save(self, commit=True):
         user = super().save(commit)

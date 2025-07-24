@@ -129,7 +129,7 @@ LOGIN_REDIRECT_URL = "/admin-view/"
 
 # If you're running in development:
 STATICFILES_DIRS = [BASE_DIR / "static"]
-AUTH_USER_MODEL = "relationship_app.CustomUser"
+AUTH_USER_MODEL = "bookshelf.CustomUser"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
