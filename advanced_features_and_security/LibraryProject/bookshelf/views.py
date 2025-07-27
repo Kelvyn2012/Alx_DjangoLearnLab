@@ -3,7 +3,8 @@ from django.contrib.auth.decorators import permission_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_protect
 from .models import Book
-from .forms import BookForm, ExampleForm
+from .forms import ExampleForm
+from .forms import BookForm
 
 
 @permission_required("bookshelf.can_view", raise_exception=True)
