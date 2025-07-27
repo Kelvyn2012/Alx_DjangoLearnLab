@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-gyh&%^kfa-rf46e2=c+e@qhn_1x7^!3!9ql+6kjf*4ps^o2()o"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
+DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -53,13 +53,9 @@ MIDDLEWARE = [
 ]
 MIDDLEWARE += ["csp.middleware.CSPMiddleware"]
 
-CONTENT_SECURITY_POLICY = {
-    "DIRECTIVES": {
-        "default-src": ("'self'",),
-        "script-src": ("'self'",),
-        "style-src": ("'self'",),
-    }
-}
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = ("'self'",)
+CSP_STYLE_SRC = ("'self'",)
 
 
 ROOT_URLCONF = "LibraryProject.urls"
@@ -145,10 +141,28 @@ AUTH_USER_MODEL = "bookshelf.CustomUser"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
-DEBUG = True
-SECURE_SSL_REDIRECT = False
-SESSION_COOKIE_SECURE = False
-CSRF_COOKIE_SECURE = False
-SECURE_HSTS_SECONDS = 0
-SECURE_HSTS_INCLUDE_SUBDOMAINS = False
-SECURE_HSTS_PRELOAD = False
+DEBUG = False  # Only in production
+
+
+
+
+# SECURITY SETTINGS
+
+# Redirect all HTTP traffic to HTTPS
+SECURE_SSL_REDIRECT = True  # Ensures all requests are redirected to HTTPS
+
+# HTTP Strict Transport Security
+SECURE_HSTS_SECONDS = 31536000  # One year (recommended)
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Applies to all subdomains
+SECURE_HSTS_PRELOAD = True  # Allows inclusion in browser preload lists
+
+# Secure cookies (HTTPS only)
+SESSION_COOKIE_SECURE = True  # Session cookies will only be sent via HTTPS
+CSRF_COOKIE_SECURE = True     # CSRF cookies will only be sent via HTTPS
+
+# Browser security headers
+X_FRAME_OPTIONS = 'DENY'  # Prevents your site from being framed (clickjacking protection)
+SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevents MIME-type sniffing
+SECURE_BROWSER_XSS_FILTER = True  # Activates the browser’s XSS filtering
+
+# Note: Make sure DEBUG = False in production
