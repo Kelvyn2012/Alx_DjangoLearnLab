@@ -144,9 +144,10 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEBUG = False  # Only in production
 
 
-
-
 # SECURITY SETTINGS
+# Tell Django to trust the X-Forwarded-Proto header from your proxy
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
 
 # Redirect all HTTP traffic to HTTPS
 SECURE_SSL_REDIRECT = True  # Ensures all requests are redirected to HTTPS
@@ -158,10 +159,12 @@ SECURE_HSTS_PRELOAD = True  # Allows inclusion in browser preload lists
 
 # Secure cookies (HTTPS only)
 SESSION_COOKIE_SECURE = True  # Session cookies will only be sent via HTTPS
-CSRF_COOKIE_SECURE = True     # CSRF cookies will only be sent via HTTPS
+CSRF_COOKIE_SECURE = True  # CSRF cookies will only be sent via HTTPS
 
 # Browser security headers
-X_FRAME_OPTIONS = 'DENY'  # Prevents your site from being framed (clickjacking protection)
+X_FRAME_OPTIONS = (
+    "DENY"  # Prevents your site from being framed (clickjacking protection)
+)
 SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevents MIME-type sniffing
 SECURE_BROWSER_XSS_FILTER = True  # Activates the browser’s XSS filtering
 
