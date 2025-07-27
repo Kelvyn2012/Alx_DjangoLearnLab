@@ -53,9 +53,13 @@ MIDDLEWARE = [
 ]
 MIDDLEWARE += ["csp.middleware.CSPMiddleware"]
 
-CSP_DEFAULT_SRC = ("'self'",)
-CSP_SCRIPT_SRC = ("'self'",)
-CSP_STYLE_SRC = ("'self'",)
+CONTENT_SECURITY_POLICY = {
+    "DIRECTIVES": {
+        "default-src": ("'self'",),
+        "script-src": ("'self'",),
+        "style-src": ("'self'",),
+    }
+}
 
 
 ROOT_URLCONF = "LibraryProject.urls"
@@ -141,7 +145,7 @@ AUTH_USER_MODEL = "bookshelf.CustomUser"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
-DEBUG = False  # Only in production
+DEBUG = True  # False Only in production
 
 
 # SECURITY SETTINGS
