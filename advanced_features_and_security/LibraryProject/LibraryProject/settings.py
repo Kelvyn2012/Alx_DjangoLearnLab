@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "django.contrib.admin",
     "bookshelf",
     "csp",
+    "sslserver",
     "relationship_app",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -145,7 +146,7 @@ AUTH_USER_MODEL = "bookshelf.CustomUser"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
-DEBUG = True  # False Only in production
+DEBUG = True  # Only in production
 
 
 # SECURITY SETTINGS
