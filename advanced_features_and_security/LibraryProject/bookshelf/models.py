@@ -6,19 +6,6 @@ from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 
 
-# Create your models here.
-class Book(models.Model):
-    title = models.CharField(max_length=200)
-    author = models.CharField(max_length=200)
-    publication_year = models.IntegerField()
-
-    def __str__(self):
-        return f"{self.title} by {self.author} ({self.publication_year})"
-
-
-# bookshelf/models.py
-
-
 class CustomUserManager(BaseUserManager):
     def create_user(self, username, email, password=None, **extra_fields):
         if not email:
@@ -48,18 +35,19 @@ class CustomUser(AbstractUser):
         return self.username
 
 
-class Article(models.Model):
+class Book(models.Model):
     title = models.CharField(max_length=255)
-    content = models.TextField()
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    content = models.TextField(default="No description yet.")
+    publication_year = models.IntegerField()
 
     class Meta:
         permissions = [
-            ("can_view", "Can view article"),
-            ("can_create", "Can create article"),
-            ("can_edit", "Can edit article"),
-            ("can_delete", "Can delete article"),
+            ("can_view", "Can view book"),
+            ("can_create", "Can create book"),
+            ("can_edit", "Can edit book"),
+            ("can_delete", "Can delete book"),
         ]
 
     def __str__(self):
-        return self.title
+        return f"{self.title} by {self.author} ({self.publication_year})"
