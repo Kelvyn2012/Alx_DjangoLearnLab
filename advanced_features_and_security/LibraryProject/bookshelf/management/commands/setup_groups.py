@@ -1,4 +1,3 @@
-# app/management/commands/setup_groups.py
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import Group, Permission
 from django.apps import apps
@@ -8,7 +7,7 @@ class Command(BaseCommand):
     help = "Create user groups and assign permissions"
 
     def handle(self, *args, **kwargs):
-        article_model = apps.get_model("bookshelf", "Article")
+        book_model = apps.get_model("bookshelf", "Book")
 
         permissions = {
             "can_view": Permission.objects.get(codename="can_view"),
