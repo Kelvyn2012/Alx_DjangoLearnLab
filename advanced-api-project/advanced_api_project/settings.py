@@ -33,7 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
-    "advancedapiproject",
+    "api",
     "rest_framework",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
