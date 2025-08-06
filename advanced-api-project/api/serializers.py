@@ -4,9 +4,11 @@ import datetime
 
 
 class BookSerializer(serializers.ModelSerializer):
+    author_name = serializers.CharField(source="author.name", read_only=True)
+
     class Meta:
         model = Book
-        fields = "__all__"
+        fields = ["id", "title", "publication_year", "author", "author_name"]
 
     def validate_publication_year(self, data):
         current_year = datetime.datetime.now().year
