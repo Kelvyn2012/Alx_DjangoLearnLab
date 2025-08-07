@@ -29,6 +29,17 @@ Response returns a list of books
 
 Valid for authenticated and unauthenticated access (if IsAuthenticatedOrReadOnly is used)
 
+### Authentication in Tests
+
+These tests use **TokenAuthentication** rather than session-based login, so instead of `self.client.login()`, we:
+
+- Create a user and token in `setUp()`
+- Attach the token using `self.client.credentials(...)`
+- Use `force_authenticate(user=None)` to simulate unauthenticated users
+
+This ensures each test runs independently and securely against a test database.
+
+
 2. Book Detail Test
 What it does: Sends a GET request to /books/<id>/
 
