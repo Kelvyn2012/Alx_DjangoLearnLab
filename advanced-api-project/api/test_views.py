@@ -8,11 +8,13 @@ from api.models import Author, Book
 
 class BookAPITestCase(APITestCase):
     def setUp(self):
+        
         self.user = User.objects.create_user(username="testuser", password="testpass")
         self.token = Token.objects.create(user=self.user)
 
         self.client = APIClient()
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token.key)
+        self.client.login
 
         self.author = Author.objects.create(name="Andrew Hunt")
 
@@ -25,6 +27,7 @@ class BookAPITestCase(APITestCase):
         self.book3 = Book.objects.create(
             title="The Clean Coder", publication_year=2011, author=self.author
         )
+
 
     def test_book_list_authenticated(self):
         url = reverse("book-list")
