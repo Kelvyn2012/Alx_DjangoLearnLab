@@ -26,9 +26,13 @@ urlpatterns = [
     ),
     path("profile/", profile_view, name="profile"),
     path("profile/edit/", edit_profile_view, name="edit_profile"),
-    path("", PostListView.as_view(), name="post-list"),
-    path("posts/<int:pk>/", PostDetailView.as_view(), name="post-detail"),
-    path("posts/new/", PostCreateView.as_view(), name="post-create"),
-    path("posts/<int:pk>/edit/", PostUpdateView.as_view(), name="post-update"),
-    path("posts/<int:pk>/delete/", PostDeleteView.as_view(), name="post-delete"),
+    path("", PostListView.as_view(), name="post-list"),  # /
+    path("post/<int:pk>/", PostDetailView.as_view(), name="post-detail"),  # post/1/
+    path("post/new/", PostCreateView.as_view(), name="post-create"),  # post/new/
+    path(
+        "post/<int:pk>/update/", PostUpdateView.as_view(), name="post-update"
+    ),  # post/1/update/
+    path(
+        "post/<int:pk>/delete/", PostDeleteView.as_view(), name="post-delete"
+    ),  # post/1/delete/
 ]
