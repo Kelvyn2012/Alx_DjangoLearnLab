@@ -10,8 +10,8 @@
         <p><strong>{{ comment.author }}</strong> ({{ comment.created_at|date:"M d, Y H:i" }})</p>
         <p>{{ comment.content }}</p>
         {% if user == comment.author %}
-            <a href="{% url 'comment-edit' comment.id %}">Edit</a> |
-            <a href="{% url 'comment-delete' comment.id %}">Delete</a>
+            <a href="{% url 'comment_edit' comment.id %}">Edit</a> |
+            <a href="{% url 'comment_delete' comment.id %}">Delete</a>
         {% endif %}
     </div>
 {% empty %}
@@ -20,7 +20,7 @@
 
 {% if user.is_authenticated %}
     <h4>Leave a comment</h4>
-    <form method="post" action="{% url 'add-comment' post.id %}">
+    <form method="post" action="{% url 'add_comment' post.id %}">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Post Comment</button>

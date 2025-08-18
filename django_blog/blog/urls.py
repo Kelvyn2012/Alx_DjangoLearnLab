@@ -19,6 +19,7 @@ from .views import (
 )
 
 
+
 urlpatterns = [
     # inbuilt auth views
     path("login/", CustomLoginView.as_view(), name="login"),
