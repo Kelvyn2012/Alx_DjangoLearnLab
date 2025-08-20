@@ -7,11 +7,11 @@ from rest_framework.authtoken.models import Token
 from .serializers import RegisterSerializer, UserSerializer
 from django.shortcuts import get_object_or_404
 
-User = get_user_model()
+CustomUser = get_user_model()
 
 
 class RegisterView(generics.CreateAPIView):
-    queryset = User.objects.all()
+    queryset = CustomUser.objects.all()
     serializer_class = RegisterSerializer
 
     def create(self, request, *args, **kwargs):
@@ -26,7 +26,7 @@ class RegisterView(generics.CreateAPIView):
 
 
 class ProfileView(generics.RetrieveUpdateAPIView):
-    queryset = User.objects.all()
+    queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
 
@@ -49,12 +49,12 @@ class LoginView(APIView):
 
 
 class FollowUserView(generics.GenericAPIView):
-    queryset = User.objects.all()
+    queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, user_id):
-        target_user = get_object_or_404(User, id=user_id)
+        target_user = get_object_or_404(CustomUser, id=user_id)
         if request.user == target_user:
             return Response({"error": "You cannot follow yourself."}, status=400)
 
@@ -65,12 +65,12 @@ class FollowUserView(generics.GenericAPIView):
 
 
 class UnfollowUserView(generics.GenericAPIView):
-    queryset = User.objects.all()
+    queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, user_id):
-        target_user = get_object_or_404(User, id=user_id)
+        target_user = get_object_or_404(CustomUser, id=user_id)
         if request.user == target_user:
             return Response({"error": "You cannot unfollow yourself."}, status=400)
 
