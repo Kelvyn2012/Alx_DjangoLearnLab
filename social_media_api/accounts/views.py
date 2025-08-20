@@ -48,7 +48,9 @@ class LoginView(APIView):
         )
 
 
-class FollowUserView(views.APIView):
+class FollowUserView(generics.GenericAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, user_id):
@@ -62,7 +64,9 @@ class FollowUserView(views.APIView):
         )
 
 
-class UnfollowUserView(views.APIView):
+class UnfollowUserView(generics.GenericAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, user_id):
