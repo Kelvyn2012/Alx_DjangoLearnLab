@@ -1,6 +1,11 @@
-from rest_framework import viewsets, permissions, generics
-from .models import Post, Comment
-from .serializers import PostSerializer, CommentSerializer
+from rest_framework import viewsets, permissions, generics, status
+from .models import Post, Comment, Like
+from .serializers import PostSerializer, CommentSerializer, LikeSerializer
+from django.shortcuts import get_object_or_404
+from rest_framework.response import Response
+from notifications.models import Notification
+from django.contrib.contenttypes.models import ContentType
+from rest_framework.views import APIView
 
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
@@ -41,3 +46,28 @@ class FeedView(generics.ListAPIView):
         # Get posts from users the current user follows
         following_users = self.request.user.following.all()
         return Post.objects.filter(author__in=following_users).order_by("-created_at")
+
+
+class LikeToggleView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, pk):
+        post = get_object_or_404(Post, pk=pk)
+        like, created = Like.objects.get_or_create(user=request.user, post=post)
+
+        if not created:
+            # If already liked → unlike it
+            like.delete()
+            return Response({"detail": "Post unliked"}, status=status.HTTP_200_OK)
+
+        # If newly liked → create notification
+        if post.author != request.user:
+            Notification.objects.create(
+                recipient=post.author,
+                actor=request.user,
+                verb="liked your post",
+                target_content_type=ContentType.objects.get_for_model(post),
+                target_object_id=post.id,
+            )
+
+        return Response({"detail": "Post liked"}, status=status.HTTP_201_CREATED)
