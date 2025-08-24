@@ -48,9 +48,7 @@ class FeedView(generics.ListAPIView):
         return Post.objects.filter(author__in=following_users).order_by("-created_at")
 
 
-class LikeToggleView(generics.GenericAPIView):
-    """Toggle like/unlike on a post"""
-
+class LikePostView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk):
@@ -58,8 +56,9 @@ class LikeToggleView(generics.GenericAPIView):
         like, created = Like.objects.get_or_create(user=request.user, post=post)
 
         if not created:
-            like.delete()
-            return Response({"detail": "Post unliked"}, status=status.HTTP_200_OK)
+            return Response(
+                {"detail": "Already liked"}, status=status.HTTP_400_BAD_REQUEST
+            )
 
         if post.author != request.user:
             Notification.objects.create(
@@ -71,3 +70,20 @@ class LikeToggleView(generics.GenericAPIView):
             )
 
         return Response({"detail": "Post liked"}, status=status.HTTP_201_CREATED)
+
+
+class UnlikePostView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, pk):
+        post = generics.get_object_or_404(Post, pk=pk)
+        like = Like.objects.filter(user=request.user, post=post).first()
+
+        if not like:
+            return Response(
+                {"detail": "You haven’t liked this post"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        like.delete()
+        return Response({"detail": "Post unliked"}, status=status.HTTP_200_OK)
