@@ -153,3 +153,12 @@ X_FRAME_OPTIONS = "DENY"
 SECURE_SSL_REDIRECT = True  # If using HTTPS
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
+# Media files (user-uploaded content)
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
+# Extra static files directory (during development)
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+# Required for collectstatic
+STATIC_ROOT = BASE_DIR / "staticfiles"
