@@ -1,11 +1,11 @@
 from rest_framework import viewsets, permissions, generics, status
-from .models import Post, Comment, Like
-from .serializers import PostSerializer, CommentSerializer, LikeSerializer
-from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
-from notifications.models import Notification
+from django.shortcuts import get_object_or_404
 from django.contrib.contenttypes.models import ContentType
-from rest_framework.views import APIView
+
+from notifications.models import Notification
+from .models import Post, Comment, Like
+from .serializers import PostSerializer, CommentSerializer
 
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
@@ -39,16 +39,19 @@ class CommentViewSet(viewsets.ModelViewSet):
 
 
 class FeedView(generics.ListAPIView):
+    """Feed: posts from users the current user follows"""
+
     serializer_class = PostSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        # Get posts from users the current user follows
         following_users = self.request.user.following.all()
         return Post.objects.filter(author__in=following_users).order_by("-created_at")
 
 
 class LikeToggleView(generics.GenericAPIView):
+    """Toggle like/unlike on a post"""
+
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk):
@@ -56,11 +59,9 @@ class LikeToggleView(generics.GenericAPIView):
         like, created = Like.objects.get_or_create(user=request.user, post=post)
 
         if not created:
-            # If already liked → unlike it
             like.delete()
             return Response({"detail": "Post unliked"}, status=status.HTTP_200_OK)
 
-        # If newly liked → create notification
         if post.author != request.user:
             Notification.objects.create(
                 recipient=post.author,
